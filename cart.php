@@ -69,12 +69,18 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
             </div>
 
             <div class="checkout-form">
-                <form action="checkout.php" method="POST">
+                <form action="cart_process.php" method="POST">
                     <h2 class="form-heading">Delivery Details</h2>
                     <div class="form-row">
                         <label for="location">Location:</label>
-                        <input type="text" id="location" name="location" required>
+                        <input type="text" id="location" name="location" placeholder="Enter Address Line 1" required>
                     </div>
+                    <div class="form-row">
+                        <label for="address-line2"></label>
+                        <input type="text" id="location" name="location" placeholder="Enter Address Line 2" required>
+                    </div>
+
+
 
                     <div class="form-row">
                         <label for="delivery-date">Delivery Date:</label>
