@@ -32,15 +32,15 @@ CREATE TABLE `users` (
   `user_name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  'email' varchar(255) NOT NULL
+  `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_name`, `password`, `name`) VALUES
-(1, 'admin', '123', 'administrator');
+INSERT INTO `users` (`id`, `user_name`, `password`, `name`, `email`) VALUES
+(1, 'admin', '123', 'administrator', `admin@gmail.com`);
 
 --
 -- Indexes for dumped tables

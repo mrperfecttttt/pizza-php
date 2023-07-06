@@ -15,9 +15,10 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         $cardNumber = $_POST['card-num'];
         $expiryDate = $_POST['card-expiry-date'];
         $cvv = $_POST['card-cvv'];
+        $pizzas = $_POST['pizza'];
 
         // Prepare and execute the SQL query
-        $sql = "INSERT INTO orders (location, address_line2, delivery_date, delivery_time, card_number, expiry_date, cvv)
+        $sql = "INSERT INTO cart (line_address1, line_address2, delivery_date, delivery_time, card_num, card_expired, cvv)
                 VALUES ('$location', '$addressLine2', '$deliveryDate', '$deliveryTime', '$cardNumber', '$expiryDate', '$cvv')";
 
         if ($conn->query($sql) === TRUE) {

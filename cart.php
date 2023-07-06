@@ -2,6 +2,20 @@
 session_start();
 
 if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
+
+    $totalPrice = 0.0;
+
+    $quantity1 = $_GET['quantity1'];
+    $quantity2 = $_GET['quantity2'];
+    $quantity3 = $_GET['quantity3'];
+
+    // Calculate the total price for each item
+    $item1Price = $quantity1 * 12.50;
+    $item2Price = $quantity2 * 15.50;
+    $item3Price = $quantity3 * 20.00;
+
+    // Calculate the overall total price
+    $totalPrice = $item1Price + $item2Price + $item3Price;
 ?>
 
     <!DOCTYPE html>
@@ -27,49 +41,46 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         <!-- Cart -->
         <div id="cart" class="container black xxlarge padding-64">
             <h1 class="center jumbo padding-32">YOUR CART</h1>
-
-            <div class="cart-item">
-                <h2 class="item-name">Deluxe Cheese</h2>
-                <div class="item-details">
-                    <div class="quantity-container">
-                        <button class="minus-btn">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus-btn">+</button>
+            <form action="cart_process.php" method="POST">
+                <div class="cart-item">
+                    <h2 class="item-name">Deluxe Cheese</h2>
+                    <input type="hidden" name="pizza[]" value="1">
+                    <div class="item-details">
+                        <div class="quantity-container">
+                            <span class="quantity"><?php echo $quantity1 ?></span>
+                        </div>
+                        <span class="item-price dark-grey round">RM12.50</span>
                     </div>
-                    <span class="item-price dark-grey round">RM12.50</span>
                 </div>
-            </div>
 
-            <div class="cart-item">
-                <h2 class="item-name">Four of a Kind Cheese</h2>
-                <div class="item-details">
-                    <div class="quantity-container">
-                        <button class="minus-btn">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus-btn">+</button>
+                <div class="cart-item">
+                    <h2 class="item-name">Four of a Kind Cheese</h2>
+                    <input type="hidden" name="pizza[]" value="2">
+                    <div class="item-details">
+                        <div class="quantity-container">
+                            <span class="quantity"><?php echo $quantity2 ?></span>
+                        </div>
+                        <span class="item-price dark-grey round">RM15.50</span>
                     </div>
-                    <span class="item-price dark-grey round">RM15.50</span>
                 </div>
-            </div>
 
-            <div class="cart-item">
-                <h2 class="item-name">Chicken Pepperoni <span class="tag red round">Hot!</span></h2>
-                <div class="item-details">
-                    <div class="quantity-container">
-                        <button class="minus-btn">-</button>
-                        <span class="quantity">0</span>
-                        <button class="plus-btn">+</button>
+                <div class="cart-item">
+                    <h2 class="item-name">Chicken Pepperoni <span class="tag red round">Hot!</span></h2>
+                    <input type="hidden" name="pizza[]" value="3">
+                    <div class="item-details">
+                        <div class="quantity-container">
+                            <span class="quantity"><?php echo $quantity3 ?></span>
+                        </div>
+                        <span class="item-price dark-grey round">RM20.00</span>
                     </div>
-                    <span class="item-price dark-grey round">RM20.00</span>
                 </div>
-            </div>
 
-            <div class="total-container right tag">
-                <h2 class="total-price">Total Price: RM0</h2>
-            </div>
+                <div class="total-container right tag">
+                    <h2 class="total-price">Total Price: <?php echo number_format($totalPrice, 2) ?></h2>
+                </div>
 
-            <div class="checkout-form">
-                <form action="cart_process.php" method="POST">
+                <div class="checkout-form">
+
                     <h2 class="form-heading">Delivery Details</h2>
                     <div class="form-row">
                         <label for="location">Location:</label>
@@ -112,13 +123,9 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                     <div class="form-row">
                         <input type="submit" value="Proceed to Checkout" class="checkout-button">
                     </div>
-
-                </form>
-
-            </div>
+                </div>
+            </form>
         </div>
-
-        <!-- <script src="script.js"></script> -->
     </body>
 
     </html>

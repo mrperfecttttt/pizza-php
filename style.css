@@ -299,7 +299,7 @@ h1 {
 	font-weight: 500;
   }
   
-  #pizza .quantity {
+  #pizza .quantity1, .quantity2, .quantity3 {
 	font-size: 18px;
 	font-weight: bold;
   }
@@ -369,7 +369,7 @@ h1 {
 	cursor: pointer;
   }
   
-  .quantity {
+  .quantity1, .quantity2, .quantity3{
 	font-size: 16px;
 	margin: 0 10px;
   }
@@ -411,3 +411,11 @@ h1 {
   .container-border p {
 	font-size: 30px;
   }
+
+  .secret {
+	border: 2px solid #ccc;
+	width: 95%;
+	padding: 10px;
+	margin: 10px auto;
+	border-radius: 5px;
+}
