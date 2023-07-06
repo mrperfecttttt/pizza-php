@@ -48,19 +48,19 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                <div id="pizza" class="container white padding-32">
                <h1 class="left"><b>Deluxe Cheese</b> 
                <div class="quantity-container">
-                    <button class="minus-button">-</button>
+                    <button class="minus-btn">-</button>
                     <span class="quantity">0</span>
-                    <button class="plus-button">+</button>
+                    <button class="plus-btn">+</button>
                </div>     
                <span class="right price dark-grey round">RM12.50</span></h1>
                <p class="text-grey">Fresh tomatoes, fresh mozzarella, fresh basil</p>
                <hr>
 
-               <h1 class="left"><b>four of a kind Cheese</b> 
+               <h1 class="left"><b>Four of a kind Cheese</b> 
                <div class="quantity-container">
-                    <button class="minus-button">-</button>
+                    <button class="minus-btn">-</button>
                     <span class="quantity">0</span>
-                    <button class="plus-button">+</button>
+                    <button class="plus-btn">+</button>
                </div>  
                <span class="right price dark-grey round">RM15.50</span></h1>
                      
@@ -69,9 +69,9 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
                <h1 class="left"><b>Chicken Pepperoni</b> <span class="left tag red round">Hot!</span>
                <div class="quantity-container">
-                    <button class="minus-button">-</button>
+                    <button class="minus-btn">-</button>
                     <span class="quantity">0</span>
-                    <button class="plus-button">+</button>
+                    <button class="plus-btn">+</button>
                </div>
                <span class="right price dark-grey round">RM20.00</span></h1> 
                <p class="text-grey">Fresh tomatoes, mozzarella, hot pepperoni, hot sausage, beef, chicken</p>
