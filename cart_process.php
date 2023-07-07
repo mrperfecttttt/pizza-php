@@ -7,28 +7,31 @@ include "database/db_conn.php";
 if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
     // Check if form is submitted
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Retrieve form data
-        $location = $_POST['location'];
-        $addressLine2 = $_POST['address-line2'];
-        $deliveryDate = $_POST['delivery-date'];
-        $deliveryTime = $_POST['delivery-time'];
-        $cardNumber = $_POST['card-num'];
-        $expiryDate = $_POST['card-expiry-date'];
-        $cvv = $_POST['card-cvv'];
+        // Retrieve and sanitize form data
+        $location = htmlspecialchars($_POST['location']);
+        $addressLine2 = htmlspecialchars($_POST['address-line2']);
+        $deliveryDate = htmlspecialchars($_POST['delivery-date']);
+        $deliveryTime = htmlspecialchars($_POST['delivery-time']);
+        $cardNumber = htmlspecialchars($_POST['card-num']);
+        $expiryDate = htmlspecialchars($_POST['card-expiry-date']);
+        $cvv = htmlspecialchars($_POST['card-cvv']);
         $pizzas = $_POST['pizza'];
 
-        // Prepare and execute the SQL query
-        $sql = "INSERT INTO cart (line_address1, line_address2, delivery_date, delivery_time, card_num, card_expired, cvv)
-                VALUES ('$location', '$addressLine2', '$deliveryDate', '$deliveryTime', '$cardNumber', '$expiryDate', '$cvv')";
+        // Prepare and bind the SQL statement
+        $stmt = $conn->prepare("INSERT INTO cart (line_address1, line_address2, delivery_date, delivery_time, card_num, card_expired, cvv)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssss", $location, $addressLine2, $deliveryDate, $deliveryTime, $cardNumber, $expiryDate, $cvv);
 
-        if ($conn->query($sql) === TRUE) {
+        // Execute the prepared statement
+        if ($stmt->execute()) {
             // Success message or redirect to a success page
             echo "Order placed successfully!";
         } else {
             // Error message or redirect to an error page
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $stmt->error;
         }
 
+        $stmt->close();
         $conn->close();
     } else {
         // Redirect if form is not submitted

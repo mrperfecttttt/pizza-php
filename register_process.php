@@ -4,7 +4,14 @@ include "database/db_conn.php";
 
 if (isset($_POST['uname']) && isset($_POST['password'])
     && isset($_POST['name']) && isset($_POST['re_password'])
-    && isset($_POST['secret_question']) && isset($_POST['secret_answer'])) {
+    && isset($_POST['secret_question']) && isset($_POST['secret_answer'])
+    && isset($_POST['csrf_token'])) {
+
+    // Validate CSRF token
+    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        header("Location: register.php?error=Invalid CSRF token");
+        exit();
+    }
 
     function validate($data){
         $data = trim($data);
@@ -13,12 +20,12 @@ if (isset($_POST['uname']) && isset($_POST['password'])
         return $data;
     }
       
-    $uname = validate($_POST['uname']);
-    $pass = validate($_POST['password']);
-    $re_pass = validate($_POST['re_password']);
-    $name = validate($_POST['name']);
-    $secretQuestion = validate($_POST['secret_question']);
-    $secretAnswer = validate($_POST['secret_answer']);
+    $uname = validate(htmlspecialchars($_POST['uname']));
+    $pass = validate(htmlspecialchars($_POST['password']));
+    $re_pass = validate(htmlspecialchars($_POST['re_password']));
+    $name = validate(htmlspecialchars($_POST['name']));
+    $secretQuestion = validate(htmlspecialchars($_POST['secret_question']));
+    $secretAnswer = validate(htmlspecialchars($_POST['secret_answer']));
 
     $user_data = 'uname='. $uname. '&name='. $name;
 
@@ -35,12 +42,6 @@ if (isset($_POST['uname']) && isset($_POST['password'])
             exit();
         }
     }
-
-	function encryptAES($data, $key) {
-		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-		$encrypted = openssl_encrypt($data, 'aes-256-cbc', $key, 0, $iv);
-		return base64_encode($iv . $encrypted);
-	}
 
     if (empty($uname)) {
         header("Location: register.php?error=User Name is required&$user_data");
@@ -64,20 +65,26 @@ if (isset($_POST['uname']) && isset($_POST['password'])
 
         // Generate AES-256 encryption key
         $encryptionKey = openssl_random_pseudo_bytes(32);
-		$ciphering_value = 'AES-128-CTR';
+        $ciphering_value = 'AES-256-CBC';
         
         // Encrypt the secret answer using AES-256 encryption
         $encryptedSecretAnswer = openssl_encrypt($secretAnswer, $ciphering_value, $uname);
 
-        $sql = "SELECT * FROM users WHERE user_name='$uname' ";
-        $result = mysqli_query($conn, $sql);
+        $sql = "SELECT * FROM users WHERE user_name=?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $uname);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
         if (mysqli_num_rows($result) > 0) {
             header("Location: register.php?error=The username is taken try another&$user_data");
             exit();
         } else {
-            $sql2 = "INSERT INTO users(user_name, password, name, secret_question, secret_answer, encryption_key) VALUES('$uname', '$pass', '$name', '$secretQuestion', '$encryptedSecretAnswer', '$uname')";
-            $result2 = mysqli_query($conn, $sql2);
+            $sql2 = "INSERT INTO users(user_name, password, name, secret_question, secret_answer, encryption_key) VALUES(?, ?, ?, ?, ?, ?)";
+            $stmt2 = mysqli_prepare($conn, $sql2);
+            mysqli_stmt_bind_param($stmt2, "ssssss", $uname, $pass, $name, $secretQuestion, $encryptedSecretAnswer, $uname);
+            $result2 = mysqli_stmt_execute($stmt2);
+
             if ($result2) {
                 header("Location: register.php?success=Your account has been created successfully");
                 exit();

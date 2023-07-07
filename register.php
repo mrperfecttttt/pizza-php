@@ -7,26 +7,38 @@
 </head>
 
 <body>
+     <?php
+     session_start();
+
+     // Generate CSRF token and store it in the session
+     if (!isset($_SESSION['csrf_token'])) {
+          $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+     }
+     $csrfToken = $_SESSION['csrf_token'];
+     ?>
+     
      <form action="register_process.php" method="post">
           <h2>SIGN UP</h2>
           <?php if (isset($_GET['error'])) { ?>
-               <p class="error"><?php echo $_GET['error']; ?></p>
+               <p class="error"><?php echo htmlspecialchars($_GET['error']); ?></p>
           <?php } ?>
 
           <?php if (isset($_GET['success'])) { ?>
-               <p class="success"><?php echo $_GET['success']; ?></p>
+               <p class="success"><?php echo htmlspecialchars($_GET['success']); ?></p>
           <?php } ?>
+
+          <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
 
           <label>Name</label>
           <?php if (isset($_GET['name'])) { ?>
-               <input type="text" name="name" placeholder="Name" value="<?php echo $_GET['name']; ?>"><br>
+               <input type="text" name="name" placeholder="Name" value="<?php echo htmlspecialchars($_GET['name']); ?>"><br>
           <?php } else { ?>
                <input type="text" name="name" placeholder="Name"><br>
           <?php } ?>
 
           <label>User Name</label>
           <?php if (isset($_GET['uname'])) { ?>
-               <input type="text" name="uname" placeholder="User Name" value="<?php echo $_GET['uname']; ?>"><br>
+               <input type="text" name="uname" placeholder="User Name" value="<?php echo htmlspecialchars($_GET['uname']); ?>"><br>
           <?php } else { ?>
                <input type="text" name="uname" placeholder="User Name"><br>
           <?php } ?>

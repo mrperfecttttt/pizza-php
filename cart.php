@@ -5,9 +5,9 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     $totalPrice = 0.0;
 
-    $quantity1 = $_GET['quantity1'];
-    $quantity2 = $_GET['quantity2'];
-    $quantity3 = $_GET['quantity3'];
+    $quantity1 = htmlspecialchars($_GET['quantity1']);
+    $quantity2 = htmlspecialchars($_GET['quantity2']);
+    $quantity3 = htmlspecialchars($_GET['quantity3']);
 
     // Calculate the total price for each item
     $item1Price = $quantity1 * 12.50;
@@ -16,6 +16,12 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     // Calculate the overall total price
     $totalPrice = $item1Price + $item2Price + $item3Price;
+
+    // Generate CSRF token and store it in the session
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    $csrfToken = $_SESSION['csrf_token'];
 ?>
 
     <!DOCTYPE html>
@@ -41,42 +47,46 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         <!-- Cart -->
         <div id="cart" class="container black xxlarge padding-64">
             <h1 class="center jumbo padding-32">YOUR CART</h1>
-            <form action="cart_process.php" method="POST">
+            <form action="checkout.php" method="GET">
+
+            <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+
                 <div class="cart-item">
                     <h2 class="item-name">Deluxe Cheese</h2>
-                    <input type="hidden" name="pizza[]" value="1">
+                    <input type="hidden" name="quantity1" value="<?php echo $quantity1 ?>">
                     <div class="item-details">
                         <div class="quantity-container">
                             <span class="quantity"><?php echo $quantity1 ?></span>
                         </div>
-                        <span class="item-price dark-grey round">RM12.50</span>
+                        <span class="item-price dark-grey round">RM<?php echo number_format($item1Price, 2) ?></span>
                     </div>
                 </div>
 
                 <div class="cart-item">
                     <h2 class="item-name">Four of a Kind Cheese</h2>
-                    <input type="hidden" name="pizza[]" value="2">
+                    <input type="hidden" name="quantity2" value="<?php echo $quantity2 ?>">
                     <div class="item-details">
                         <div class="quantity-container">
                             <span class="quantity"><?php echo $quantity2 ?></span>
                         </div>
-                        <span class="item-price dark-grey round">RM15.50</span>
+                        <span class="item-price dark-grey round">RM<?php echo number_format($item2Price, 2) ?></span>
                     </div>
                 </div>
 
                 <div class="cart-item">
                     <h2 class="item-name">Chicken Pepperoni <span class="tag red round">Hot!</span></h2>
-                    <input type="hidden" name="pizza[]" value="3">
+                    <input type="hidden" name="quantity3" value="<?php echo $quantity3 ?>">
                     <div class="item-details">
                         <div class="quantity-container">
                             <span class="quantity"><?php echo $quantity3 ?></span>
                         </div>
-                        <span class="item-price dark-grey round">RM20.00</span>
+                        <span class="item-price dark-grey round">RM<?php echo number_format($item3Price, 2) ?></span>
                     </div>
                 </div>
 
                 <div class="total-container right tag">
-                    <h2 class="total-price">Total Price: <?php echo number_format($totalPrice, 2) ?></h2>
+                    <h2 class="total-price">Total Price: RM<?php echo number_format($totalPrice, 2) ?></h2>
+                    <input type="hidden" name="total_price" value="<?php echo $totalPrice ?>">
                 </div>
 
                 <div class="checkout-form">
@@ -88,7 +98,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                     </div>
                     <div class="form-row">
                         <label for="address-line2"></label>
-                        <input type="text" id="location" name="location" placeholder="Enter Address Line 2" required>
+                        <input type="text" id="location" name="location2" placeholder="Enter Address Line 2" required>
                     </div>
 
 
