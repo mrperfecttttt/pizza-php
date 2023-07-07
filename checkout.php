@@ -1,7 +1,8 @@
 <?php
 require_once 'session_config.php';
 
-session_start();
+if(!session_start())
+    session_start();
 
 if (isset($_SESSION['id']) && isset($_SESSION['user_name']) && isset($_GET['csrf_token'])){
     $quantity1 = isset($_GET['quantity1']) ? htmlspecialchars($_GET['quantity1']) : 0;
