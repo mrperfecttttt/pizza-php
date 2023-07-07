@@ -52,15 +52,17 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         </div>
 
         <!-- Cart -->
-        <div id="cart" class="container black xxlarge padding-64">
+        <div id="cart" class="container black xxlarge padding-64"><br>
             <h1 class="center jumbo padding-32">YOUR CART</h1>
             <form action="checkout.php" method="GET">
 
                 <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+
                 <input type="hidden" name="quantity1" value="<?php echo $quantity1 ?>">
                 <input type="hidden" name="quantity2" value="<?php echo $quantity2 ?>">
                 <input type="hidden" name="quantity3" value="<?php echo $quantity3 ?>">
                 <input type="hidden" name="total_price" value="<?php echo $totalPrice ?>">
+
                 <?php
 
 
