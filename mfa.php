@@ -186,25 +186,30 @@
 		<div class="shape"></div>
 	</div>
 
-	<form action="login_process.php" method="post">
-		<h2>LOGIN</h2>
+	<form action="mfa_process.php" method="post">
+		<h2>Two-Factor Authentication</h2>
 		<?php if (isset($_GET['error'])) { ?>
 			<p class="error"><?php echo htmlspecialchars($_GET['error']); ?></p>
 		<?php } ?>
 
 		<input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
 
-		<label>User Name</label>
-		<input type="text" name="uname" placeholder="User Name"><br>
+		<label>Secret Question</label><br>
+          <select class="secret" name="secret_question">
+               <option value="" selected disabled>Please select your secret question</option>
+               <option value="What is your pet's name?">What is your pet's name?</option>
+               <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+               <option value="What is your favorite movie?">What is your favorite movie?</option>
+          </select><br>
 
-		<label>Password</label>
-		<input type="password" name="password" placeholder="Password"><br>
 
-		<button type="submit">Login</button>
-		<div class="action">
-			<a href="recover.php" class="ca"> Forgot Password</a>
-			<a href="register.php" class="ca2"> Create an account</a>
-		</div>
+          <label>Secret Answer</label>
+          <input type="text" name="secret_answer" placeholder="Secret Answer"><br>
+
+		<button type="submit">Sumbit</button>
+        <div class="action">
+            <a href="login.php" class="ca">&lt; Back</a>
+        </div>
 	</form>
 </body>
 

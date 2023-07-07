@@ -43,7 +43,7 @@ if (isset($_POST['uname']) && isset($_POST['password']) && isset($_POST['csrf_to
 				$_SESSION['user_name'] = $row['user_name'];
 				$_SESSION['name'] = $row['name'];
 				$_SESSION['id'] = $row['id'];
-				header("Location: home.php");
+				header("Location: mfa.php");
 				exit();
 			} else {
 				header("Location: login.php?error=Incorect User name or password");
