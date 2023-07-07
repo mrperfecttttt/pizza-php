@@ -4,7 +4,7 @@ session_start();
 if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     // Validate CSRF token
-    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!strcmp($_POST['csrf_token'],$_SESSION['csrf_token'])) {
         header("Location: register.php?error=Invalid CSRF token");
         exit();
     }

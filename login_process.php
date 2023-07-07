@@ -5,7 +5,7 @@ include "database/db_conn.php";
 if (isset($_POST['uname']) && isset($_POST['password']) && isset($_POST['csrf_token'])) {
 
 	// Validate CSRF token
-    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!strcmp($_POST['csrf_token'],$_SESSION['csrf_token'])) {
         header("Location: register.php?error=Invalid CSRF token");
         exit();
     }
