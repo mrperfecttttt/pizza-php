@@ -4,7 +4,7 @@ session_start();
 if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
     // Check if the status parameter is set in the query string
     if (isset($_GET['status'])) {
-        $status = $_GET['status'];
+        $status = htmlspecialchars($_GET['status']);
     } else {
         // Status parameter not set, handle the error accordingly
         header("Location: home.php");

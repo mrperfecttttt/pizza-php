@@ -2,7 +2,14 @@
 session_start();
 include "database/db_conn.php";
 
-if (isset($_POST['uname']) && isset($_POST['np']) && isset($_POST['c_np'])) {
+if (isset($_POST['uname']) && isset($_POST['np']) && isset($_POST['c_np']) && isset($_POST['csrf_token'])) {
+
+	// Validate CSRF token
+	if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+		header("Location: recover.php?error=Invalid CSRF token");
+		exit();
+	}
+
 	function validate($data)
 	{
 		$data = trim($data);
@@ -26,9 +33,9 @@ if (isset($_POST['uname']) && isset($_POST['np']) && isset($_POST['c_np'])) {
 		}
 	}
 
-	$uname = validate($_POST['uname']);
-	$np = validate($_POST['np']);
-	$c_np = validate($_POST['c_np']);
+	$uname = validate(htmlspecialchars($_POST['uname']));
+	$np = validate(htmlspecialchars($_POST['np']));
+	$c_np = validate(htmlspecialchars($_POST['c_np']));
 
 	if (empty($uname)) {
 		header("Location: recover.php?error=User Name is required");
@@ -58,7 +65,7 @@ if (isset($_POST['uname']) && isset($_POST['np']) && isset($_POST['c_np'])) {
 			$ciphering_value = 'AES-256-CBC';
 
 			// Decrypt the secret answer using AES-256 decryption
-			$secretAnswer = openssl_decrypt($encryptedSecretAnswer, $ciphering_value,$encryptionKey);
+			$secretAnswer = openssl_decrypt($encryptedSecretAnswer, $ciphering_value, $encryptionKey);
 
 			if ($_POST['secret_question'] === $secretQuestion && $_POST['secret_answer'] === $secretAnswer) {
 				// Use prepared statement to update the password

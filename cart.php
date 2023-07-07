@@ -5,9 +5,9 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     $totalPrice = 0.0;
 
-    $quantity1 = $_GET['quantity1'];
-    $quantity2 = $_GET['quantity2'];
-    $quantity3 = $_GET['quantity3'];
+    $quantity1 = htmlspecialchars($_GET['quantity1']);
+    $quantity2 = htmlspecialchars($_GET['quantity2']);
+    $quantity3 = htmlspecialchars($_GET['quantity3']);
 
     // Calculate the total price for each item
     $item1Price = $quantity1 * 12.50;
@@ -16,6 +16,12 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     // Calculate the overall total price
     $totalPrice = $item1Price + $item2Price + $item3Price;
+
+    // Generate CSRF token and store it in the session
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    $csrfToken = $_SESSION['csrf_token'];
 ?>
 
     <!DOCTYPE html>
@@ -42,6 +48,9 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         <div id="cart" class="container black xxlarge padding-64">
             <h1 class="center jumbo padding-32">YOUR CART</h1>
             <form action="checkout.php" method="GET">
+
+            <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+
                 <div class="cart-item">
                     <h2 class="item-name">Deluxe Cheese</h2>
                     <input type="hidden" name="quantity1" value="<?php echo $quantity1 ?>">

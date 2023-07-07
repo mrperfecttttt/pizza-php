@@ -4,7 +4,14 @@ include "database/db_conn.php";
 
 if (isset($_POST['uname']) && isset($_POST['password'])
     && isset($_POST['name']) && isset($_POST['re_password'])
-    && isset($_POST['secret_question']) && isset($_POST['secret_answer'])) {
+    && isset($_POST['secret_question']) && isset($_POST['secret_answer'])
+    && isset($_POST['csrf_token'])) {
+
+    // Validate CSRF token
+    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        header("Location: register.php?error=Invalid CSRF token");
+        exit();
+    }
 
     function validate($data){
         $data = trim($data);
@@ -13,12 +20,12 @@ if (isset($_POST['uname']) && isset($_POST['password'])
         return $data;
     }
       
-    $uname = validate($_POST['uname']);
-    $pass = validate($_POST['password']);
-    $re_pass = validate($_POST['re_password']);
-    $name = validate($_POST['name']);
-    $secretQuestion = validate($_POST['secret_question']);
-    $secretAnswer = validate($_POST['secret_answer']);
+    $uname = validate(htmlspecialchars($_POST['uname']));
+    $pass = validate(htmlspecialchars($_POST['password']));
+    $re_pass = validate(htmlspecialchars($_POST['re_password']));
+    $name = validate(htmlspecialchars($_POST['name']));
+    $secretQuestion = validate(htmlspecialchars($_POST['secret_question']));
+    $secretAnswer = validate(htmlspecialchars($_POST['secret_answer']));
 
     $user_data = 'uname='. $uname. '&name='. $name;
 

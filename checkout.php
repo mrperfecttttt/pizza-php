@@ -1,17 +1,17 @@
 <?php
 session_start();
 
-if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
-    $quantity1 = isset($_GET['quantity1']) ? $_GET['quantity1'] : 0;
-    $quantity2 = isset($_GET['quantity2']) ? $_GET['quantity2'] : 0;
-    $quantity3 = isset($_GET['quantity3']) ? $_GET['quantity3'] : 0;
-    $totalPrice = isset($_GET['total_price']) ? $_GET['total_price'] : 0;
-    $location = isset($_GET['location']) ? $_GET['location'] : '';
-    $deliveryDate = isset($_GET['delivery-date']) ? $_GET['delivery-date'] : '';
-    $deliveryTime = isset($_GET['delivery-time']) ? $_GET['delivery-time'] : '';
-    $cardNumber = isset($_GET['card-num']) ? $_GET['card-num'] : '';
-    $cardExpiryDate = isset($_GET['card-expiry-date']) ? $_GET['card-expiry-date'] : '';
-    $cardCVV = isset($_GET['card-cvv']) ? $_GET['card-cvv'] : '';
+if (isset($_SESSION['id']) && isset($_SESSION['user_name']) && isset($_GET['csrf_token'])){
+    $quantity1 = isset($_GET['quantity1']) ? htmlspecialchars($_GET['quantity1']) : 0;
+    $quantity2 = isset($_GET['quantity2']) ? htmlspecialchars($_GET['quantity2']) : 0;
+    $quantity3 = isset($_GET['quantity3']) ? htmlspecialchars($_GET['quantity3']) : 0;
+    $totalPrice = isset($_GET['total_price']) ? htmlspecialchars($_GET['total_price']) : 0;
+    $location = isset($_GET['location']) ? htmlspecialchars($_GET['location']) : '';
+    $deliveryDate = isset($_GET['delivery-date']) ? htmlspecialchars($_GET['delivery-date']) : '';
+    $deliveryTime = isset($_GET['delivery-time']) ? htmlspecialchars($_GET['delivery-time']) : '';
+    $cardNumber = isset($_GET['card-num']) ? htmlspecialchars($_GET['card-num']) : '';
+    $cardExpiryDate = isset($_GET['card-expiry-date']) ? htmlspecialchars($_GET['card-expiry-date']) : '';
+    $cardCVV = isset($_GET['card-cvv']) ? htmlspecialchars($_GET['card-cvv']) : '';
 
     // Construct the state string
     $state = "$quantity1|#|$quantity2|#|$quantity3|#|$totalPrice|#|$location|#|$deliveryDate|#|$deliveryTime|#|$cardNumber|#|$cardExpiryDate|#|$cardCVV";
@@ -21,6 +21,12 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     // Compute the message authentication code (MAC) using the server key
     $signature = hash_hmac('sha256', $state, $serverKey);
+
+    // Generate CSRF token and store it in the session
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    $csrfToken = $_SESSION['csrf_token'];
 ?>
 
     <!DOCTYPE html>
@@ -47,6 +53,9 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         <div id="cart" class="container black xxlarge padding-64">
             <h1 class="center jumbo padding-32">Checkout</h1>
             <form action="checkout_process.php" method="GET">
+
+                <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+
                 <p>You ordered:</p>
                 <?php
                 if ($quantity1 > 0) {

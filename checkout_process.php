@@ -2,18 +2,25 @@
 session_start();
 
 if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
-    if (isset($_GET['submit'])) {
+
+    // Validate CSRF token
+	if ($_GET['csrf_token'] !== $_SESSION['csrf_token']) {
+		header("Location: order.php?status=Invalid CSRF token");
+		exit();
+	}
+
+    else if (isset($_GET['submit'])) {
         // Payment was submitted, process the payment and complete the order
-        $quantity1 = $_GET['quantity1'];
-        $quantity2 = $_GET['quantity2'];
-        $quantity3 = $_GET['quantity3'];
-        $totalPrice = $_GET['total_price'];
-        $location = $_GET['location'];
-        $deliveryDate = $_GET['delivery-date'];
-        $deliveryTime = $_GET['delivery-time'];
-        $cardNumber = $_GET['card-num'];
-        $cardExpiryDate = $_GET['card-expiry-date'];
-        $cardCVV = $_GET['card-cvv'];
+        $quantity1 = htmlspecialchars($_GET['quantity1']);
+        $quantity2 = htmlspecialchars($_GET['quantity2']);
+        $quantity3 = htmlspecialchars($_GET['quantity3']);
+        $totalPrice = htmlspecialchars($_GET['total_price']);
+        $location = htmlspecialchars($_GET['location']);
+        $deliveryDate = htmlspecialchars($_GET['delivery-date']);
+        $deliveryTime = htmlspecialchars($_GET['delivery-time']);
+        $cardNumber = htmlspecialchars($_GET['card-num']);
+        $cardExpiryDate = htmlspecialchars($_GET['card-expiry-date']);
+        $cardCVV = htmlspecialchars($_GET['card-cvv']);
 
         // Construct the state string
         $state = "$quantity1|#|$quantity2|#|$quantity3|#|$totalPrice|#|$location|#|$deliveryDate|#|$deliveryTime|#|$cardNumber|#|$cardExpiryDate|#|$cardCVV";
