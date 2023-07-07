@@ -76,7 +76,10 @@ if (isset($_POST['uname']) && isset($_POST['np']) && isset($_POST['c_np']) && is
 				header("Location: recover.php?success=Your password has been changed successfully");
 				exit();
 			} else {
-				header("Location: recover.php?error=Incorrect secret question or answer");
+
+				echo $row['secret_question'];
+				echo $_POST['secret_question'];
+				// header("Location: recover.php?error=Incorrect secret question or answer");
 				exit();
 			}
 		} else {
