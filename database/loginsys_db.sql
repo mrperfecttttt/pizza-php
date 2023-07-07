@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cart` (
-  `order-id` int(30) NOT NULL,
+  `order_id` int(30) NOT NULL AUTO_INCREMENT,
   `user_id` int(30) NOT NULL,
   `product_1` int(11) NOT NULL,
   `product_2` int(11) NOT NULL,
@@ -40,7 +40,8 @@ CREATE TABLE `cart` (
   `delivery_time` time DEFAULT NULL,
   `card_num` varchar(16) DEFAULT NULL,
   `card_expired` varchar(5) DEFAULT NULL,
-  `cvv` varchar(3) DEFAULT NULL
+  `cvv` varchar(3) DEFAULT NULL,
+  PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

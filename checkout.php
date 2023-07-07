@@ -1,8 +1,7 @@
 <?php
 require_once 'session_config.php';
 
-if (!session_start())
-    session_start();
+session_start();
 
 if (isset($_SESSION['id']) && isset($_SESSION['user_name']) && isset($_GET['csrf_token'])){
     $quantity1 = isset($_GET['quantity1']) ? htmlspecialchars($_GET['quantity1']) : 0;
@@ -10,15 +9,16 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name']) && isset($_GET['csrf
     $quantity3 = isset($_GET['quantity3']) ? htmlspecialchars($_GET['quantity3']) : 0;
     $totalPrice = isset($_GET['total_price']) ? htmlspecialchars($_GET['total_price']) : 0;
     $location = isset($_GET['location']) ? htmlspecialchars($_GET['location']) : '';
+    $location2 = isset($_GET['location2']) ? htmlspecialchars($_GET['location2']) : '';
     $deliveryDate = isset($_GET['delivery-date']) ? htmlspecialchars($_GET['delivery-date']) : '';
     $deliveryTime = isset($_GET['delivery-time']) ? htmlspecialchars($_GET['delivery-time']) : '';
     $cardNumber = isset($_GET['card-num']) ? htmlspecialchars($_GET['card-num']) : '';
     $cardExpiryDate = isset($_GET['card-expiry-date']) ? htmlspecialchars($_GET['card-expiry-date']) : '';
     $cardCVV = isset($_GET['card-cvv']) ? htmlspecialchars($_GET['card-cvv']) : '';
 
-    // Construct the state string
-    $state = "$quantity1|#|$quantity2|#|$quantity3|#|$totalPrice|#|$location
-    |#|$deliveryDate|#|$deliveryTime|#|$cardNumber|#|$cardExpiryDate|#|$cardCVV";
+        // Construct the state string
+        $state = "$quantity1|#|$quantity2|#|$quantity3|#|$totalPrice|#|$location|#|$location2
+        |#|$deliveryDate|#|$deliveryTime|#|$cardNumber|#|$cardExpiryDate|#|$cardCVV";
 
     // Server key 
     $serverKey = 'super_secure_key';
@@ -85,6 +85,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name']) && isset($_GET['csrf
                 <input type="hidden" name="quantity3" value="<?php echo $quantity3 ?>">
                 <input type="hidden" name="total_price" value="<?php echo $totalPrice ?>">
                 <input type="hidden" name="location" value="<?php echo $location ?>">
+                <input type="hidden" name="location2" value="<?php echo $location2 ?>">
                 <input type="hidden" name="delivery-date" value="<?php echo $deliveryDate ?>">
                 <input type="hidden" name="delivery-time" value="<?php echo $deliveryTime ?>">
                 <input type="hidden" name="card-num" value="<?php echo $cardNumber ?>">

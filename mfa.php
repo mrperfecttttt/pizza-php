@@ -206,7 +206,7 @@
           <label>Secret Answer</label>
           <input type="text" name="secret_answer" placeholder="Secret Answer"><br>
 
-		<button type="submit">Sumbit</button>
+		<button type="submit">Submit</button>
         <div class="action">
             <a href="login.php" class="ca">&lt; Back</a>
         </div>
