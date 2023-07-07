@@ -57,6 +57,10 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
             <form action="checkout.php" method="GET">
 
                 <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+                <input type="hidden" name="quantity1" value="<?php echo $quantity1 ?>">
+                <input type="hidden" name="quantity2" value="<?php echo $quantity2 ?>">
+                <input type="hidden" name="quantity3" value="<?php echo $quantity3 ?>">
+                <input type="hidden" name="total_price" value="<?php echo $totalPrice ?>">
                 <?php
 
 
