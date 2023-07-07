@@ -5,10 +5,10 @@ include "database/db_conn.php";
 if (isset($_POST['uname']) && isset($_POST['np']) && isset($_POST['c_np']) && isset($_POST['csrf_token'])) {
 
 	// Validate CSRF token
-	if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-		header("Location: recover.php?error=Invalid CSRF token");
-		exit();
-	}
+    if (!strcmp($_POST['csrf_token'],$_SESSION['csrf_token'])) {
+        header("Location: register.php?error=Invalid CSRF token");
+        exit();
+    }
 
 	function validate($data)
 	{
