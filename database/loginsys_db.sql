@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2023 at 06:23 AM
+-- Generation Time: Jul 07, 2023 at 03:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,53 @@ SET time_zone = "+00:00";
 --
 -- Database: `loginsys_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `order-id` int(30) NOT NULL,
+  `user_id` int(30) NOT NULL,
+  `product_1` int(11) NOT NULL,
+  `product_2` int(11) NOT NULL,
+  `product_3` int(11) DEFAULT NULL,
+  `total_price` double DEFAULT NULL,
+  `line_address1` varchar(255) DEFAULT NULL,
+  `line_address2` varchar(255) DEFAULT NULL,
+  `delivery_date` date DEFAULT NULL,
+  `delivery_time` time DEFAULT NULL,
+  `card_num` varchar(16) DEFAULT NULL,
+  `card_expired` varchar(5) DEFAULT NULL,
+  `cvv` varchar(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_list`
+--
+
+CREATE TABLE `product_list` (
+  `id` int(30) NOT NULL,
+  `category_id` int(30) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `price` float NOT NULL DEFAULT 0,
+  `img_path` text NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0= unavailable, 2 Available'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_list`
+--
+
+INSERT INTO `product_list` (`id`, `category_id`, `name`, `description`, `price`, `img_path`, `status`) VALUES
+(1, 3, 'Sicilian Pizza (Traditional Toppings)', 'Sicilian pizza with bits of tomato, onion, anchovies, and herbs toppings.', 350, '1676512620_Sicilian.jpg', 1),
+(2, 1, 'Pepperoni Thin', 'Pepperoni thin-crust', 380, '1676512800_thin-pepperoni.png', 1),
+(3, 2, 'Detroit Style', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent suscipit porttitor dui, a accumsan metus molestie vel. Quisque luctus eros interdum, facilisis lectus at, aliquam lacus.', 360, '1676512980_detroit-style-thick.jpg', 1);
 
 -- --------------------------------------------------------
 
