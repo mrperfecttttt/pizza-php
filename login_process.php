@@ -5,10 +5,10 @@ include "database/db_conn.php";
 if (isset($_POST['uname']) && isset($_POST['password']) && isset($_POST['csrf_token'])) {
 
 	// Validate CSRF token
-    if (!strcmp($_POST['csrf_token'],$_SESSION['csrf_token'])) {
-        header("Location: login.php?error=Invalid CSRF token");
-        exit();
-    }
+	if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+		header("Location: login.php?error=Invalid CSRF token");
+		exit();
+	}
 
 	function validate($data)
 	{
@@ -43,6 +43,9 @@ if (isset($_POST['uname']) && isset($_POST['password']) && isset($_POST['csrf_to
 				$_SESSION['user_name'] = $row['user_name'];
 				$_SESSION['name'] = $row['name'];
 				$_SESSION['id'] = $row['id'];
+
+				session_regenerate_id(true);
+
 				header("Location: mfa.php");
 				exit();
 			} else {

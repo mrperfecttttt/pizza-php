@@ -1,5 +1,8 @@
 <?php
-session_start();
+require_once 'session_config.php';
+
+if(!session_start())
+    session_start();
 
 if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
