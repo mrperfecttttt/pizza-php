@@ -6,7 +6,7 @@ if (isset($_POST['uname']) && isset($_POST['np']) && isset($_POST['c_np']) && is
 
 	// Validate CSRF token
     if (!strcmp($_POST['csrf_token'],$_SESSION['csrf_token'])) {
-        header("Location: register.php?error=Invalid CSRF token");
+        header("Location: recover.php?error=Invalid CSRF token");
         exit();
     }
 

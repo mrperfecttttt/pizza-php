@@ -8,7 +8,7 @@ if (isset($_POST['secret_question']) && isset($_POST['secret_answer']) && isset(
 
 	// Validate CSRF token
     if (!strcmp($_POST['csrf_token'],$_SESSION['csrf_token'])) {
-        header("Location: register.php?error=Invalid CSRF token");
+        header("Location: mfa.php?error=Invalid CSRF token");
         exit();
     }
 
