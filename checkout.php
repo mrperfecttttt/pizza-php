@@ -1,7 +1,7 @@
 <?php
 require_once 'session_config.php';
 
-if (session_start())
+if (!session_start())
     session_start();
 
 if (isset($_SESSION['id']) && isset($_SESSION['user_name']) && isset($_GET['csrf_token'])){
@@ -54,7 +54,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name']) && isset($_GET['csrf
         </div>
 
         <!-- Checkout -->
-        <div id="cart" class="container black xxlarge padding-64">
+        <div id="cart" class="container black xxlarge padding-64"><br>
             <h1 class="center jumbo padding-32">Checkout</h1>
             <form action="checkout_process.php" method="GET">
 
