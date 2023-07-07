@@ -13,6 +13,7 @@ if (isset($_POST['uname']) && isset($_POST['password'])
         exit();
     }
 
+    // Function to validate and sanitize input data
     function validate($data){
         $data = trim($data);
         $data = stripslashes($data);
@@ -29,6 +30,7 @@ if (isset($_POST['uname']) && isset($_POST['password'])
 
     $user_data = 'uname='. $uname. '&name='. $name;
 
+    // Function to validate password against a pattern
     function validatePassword($password, $user_data) {
         // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number, and one special character
         $pattern = "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z\d\s]).{8,}$/";
@@ -64,12 +66,14 @@ if (isset($_POST['uname']) && isset($_POST['password'])
         $pass = md5($pass);
 
         // Generate AES-256 encryption key
-        $encryptionKey = openssl_random_pseudo_bytes(32);
+        $encryptionKey = bin2hex(random_bytes(32));
         $ciphering_value = 'AES-256-CBC';
+        $secret_key = 'super_strong_secret_key';
         
         // Encrypt the secret answer using AES-256 encryption
-        $encryptedSecretAnswer = openssl_encrypt($secretAnswer, $ciphering_value, $uname);
+        $encryptedSecretAnswer = openssl_encrypt($secretAnswer, $ciphering_value, $encryptionKey);
 
+        // Check if username is already taken
         $sql = "SELECT * FROM users WHERE user_name=?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "s", $uname);
@@ -80,9 +84,10 @@ if (isset($_POST['uname']) && isset($_POST['password'])
             header("Location: register.php?error=The username is taken try another&$user_data");
             exit();
         } else {
+            // Insert user data into the database
             $sql2 = "INSERT INTO users(user_name, password, name, secret_question, secret_answer, encryption_key) VALUES(?, ?, ?, ?, ?, ?)";
             $stmt2 = mysqli_prepare($conn, $sql2);
-            mysqli_stmt_bind_param($stmt2, "ssssss", $uname, $pass, $name, $secretQuestion, $encryptedSecretAnswer, $uname);
+            mysqli_stmt_bind_param($stmt2, "ssssss", $uname, $pass, $name, $secretQuestion, $encryptedSecretAnswer, $encryptionKey);
             $result2 = mysqli_stmt_execute($stmt2);
 
             if ($result2) {
@@ -99,3 +104,4 @@ if (isset($_POST['uname']) && isset($_POST['password'])
     header("Location: register.php");
     exit();
 }
+?>

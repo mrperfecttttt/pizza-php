@@ -222,8 +222,8 @@
           <label>Secret Question</label><br>
           <select class="secret" name="secret_question">
                <option value="" selected disabled>Please select your secret question</option>
-               <option value="What is your pet's name?">What is your pet's name?</option>
-               <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+               <option value="What is your pet name?">What is your pet's name?</option>
+               <option value="What is your mother maiden name?">What is your mother's maiden name?</option>
                <option value="What is your favorite movie?">What is your favorite movie?</option>
           </select><br>
 

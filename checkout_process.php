@@ -23,7 +23,8 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         $cardCVV = htmlspecialchars($_GET['card-cvv']);
 
         // Construct the state string
-        $state = "$quantity1|#|$quantity2|#|$quantity3|#|$totalPrice|#|$location|#|$deliveryDate|#|$deliveryTime|#|$cardNumber|#|$cardExpiryDate|#|$cardCVV";
+        $state = "$quantity1|#|$quantity2|#|$quantity3|#|$totalPrice|#|$location
+        |#|$deliveryDate|#|$deliveryTime|#|$cardNumber|#|$cardExpiryDate|#|$cardCVV";
 
         // Server key
         $serverKey = 'super_secure_key';
