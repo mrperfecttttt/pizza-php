@@ -83,7 +83,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                     <p class="text-grey">Fresh tomatoes, mozzarella, hot pepperoni, hot sausage, beef, chicken</p>
 
                     <div class="total-container">
-                         <h2 class="total-price">Total Price: RM0</h2>
+                         <h2 class="total-price"></h2>
                          <a href="cart.php?quantity1=0&quantity2=0&quantity3=0" class="right tag red round cart-button"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
                     </div>
                </div>
