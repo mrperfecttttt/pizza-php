@@ -5,7 +5,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     // Validate CSRF token
     if (!strcmp($_GET['csrf_token'],$_SESSION['csrf_token'])) {
-        header("Location: register.php?error=Invalid CSRF token");
+        header("Location: order.php?error=Invalid CSRF token");
         exit();
     }
 

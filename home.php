@@ -1,4 +1,5 @@
 <?php
+require_once 'session_config.php';
 
 if (!session_start())
      session_start();
