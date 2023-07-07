@@ -7,10 +7,10 @@ include "database/db_conn.php";
 if (isset($_POST['secret_question']) && isset($_POST['secret_answer']) && isset($_POST['csrf_token'])) {
 
 	// Validate CSRF token
-	if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-		header("Location: mfa.php?error=Invalid CSRF token");
-		exit();
-	}
+    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        header("Location: register.php?error=Invalid CSRF token");
+        exit();
+    }
 
 	function validate($data)
 	{

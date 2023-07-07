@@ -4,10 +4,10 @@ session_start();
 if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     // Validate CSRF token
-	if ($_GET['csrf_token'] !== $_SESSION['csrf_token']) {
-		header("Location: order.php?status=Invalid CSRF token");
-		exit();
-	}
+    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        header("Location: register.php?error=Invalid CSRF token");
+        exit();
+    }
 
     else if (isset($_GET['submit'])) {
         // Payment was submitted, process the payment and complete the order
