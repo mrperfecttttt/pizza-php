@@ -36,12 +36,6 @@ if (isset($_POST['uname']) && isset($_POST['password'])
         }
     }
 
-    function encryptAES($data, $key) {
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-        $encrypted = openssl_encrypt($data, 'aes-256-cbc', $key, 0, $iv);
-        return base64_encode($iv . $encrypted);
-    }
-
     if (empty($uname)) {
         header("Location: register.php?error=User Name is required&$user_data");
         exit();
@@ -64,7 +58,7 @@ if (isset($_POST['uname']) && isset($_POST['password'])
 
         // Generate AES-256 encryption key
         $encryptionKey = openssl_random_pseudo_bytes(32);
-        $ciphering_value = 'AES-128-CTR';
+        $ciphering_value = 'AES-256-CBC';
         
         // Encrypt the secret answer using AES-256 encryption
         $encryptedSecretAnswer = openssl_encrypt($secretAnswer, $ciphering_value, $uname);

@@ -55,7 +55,7 @@ if (isset($_POST['uname']) && isset($_POST['np']) && isset($_POST['c_np'])) {
 			$secretQuestion = $row['secret_question'];
 			$encryptedSecretAnswer = $row['secret_answer'];
 			$encryptionKey = $row['encryption_key'];
-			$ciphering_value = 'AES-128-CTR';
+			$ciphering_value = 'AES-256-CBC';
 
 			// Decrypt the secret answer using AES-256 decryption
 			$secretAnswer = openssl_decrypt($encryptedSecretAnswer, $ciphering_value,$encryptionKey);
